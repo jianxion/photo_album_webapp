@@ -19,16 +19,16 @@ phases:
       - cp index-photos.py package/
       - cd package
       - zip -r ../index-photos-lambda.zip .
-      - cd ../../..
+      - cd ../../../..
       
       # Build search-photos Lambda
       - echo "Building search-photos Lambda..."
-      - cd lambda-functions/search-photos
+      - cd backend/lambda-functions/search-photos
       - pip install -r requirements.txt -t package/
       - cp search-photos.py package/
       - cd package
       - zip -r ../search-photos-lambda.zip .
-      - cd ../../..
+      - cd ../../../..
       
   post_build:
     commands:
