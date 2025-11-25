@@ -10,6 +10,7 @@ phases:
   build:
     commands:
       - echo "Building Lambda deployment packages..."
+      - cd backend
       
       # Build index-photos Lambda
       - echo "Building index-photos Lambda..."
@@ -36,20 +37,20 @@ phases:
       # Deploy index-photos Lambda
       - |
         aws lambda update-function-code \
-          --function-name index-photos \
-          --zip-file fileb://lambda-functions/index-photos/index-photos-lambda.zip \
+          --function-name LF1 \
+          --zip-file fileb://backend/lambda-functions/index-photos/index-photos-lambda.zip \
           --region us-east-1
       
       # Deploy search-photos Lambda
       - |
         aws lambda update-function-code \
           --function-name search-photos \
-          --zip-file fileb://lambda-functions/search-photos/search-photos-lambda.zip \
+          --zip-file fileb://backend/lambda-functions/search-photos/search-photos-lambda.zip \
           --region us-east-1
       
       - echo "Lambda functions deployed successfully!"
 
 artifacts:
   files:
-    - lambda-functions/index-photos/index-photos-lambda.zip
-    - lambda-functions/search-photos/search-photos-lambda.zip
+    - backend/lambda-functions/index-photos/index-photos-lambda.zip
+    - backend/lambda-functions/search-photos/search-photos-lambda.zip
