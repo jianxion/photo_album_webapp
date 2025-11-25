@@ -9,6 +9,7 @@ OPENSEARCH_ENDPOINT = os.environ.get('OPENSEARCH_ENDPOINT', '')
 OPENSEARCH_INDEX = 'photos'
 SERVICE = 'es'
 AWS_REGION = 'us-east-1'
+version = 'cicd v1'
 STOP_WORDS = {'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by', 'show', 'me', 'find', 'search', 'photos', 'pictures', 'images'}
 
 def normalize_plural(word):
