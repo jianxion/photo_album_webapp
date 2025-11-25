@@ -1,0 +1,27 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo "No dependencies to install for static website"
+      
+  build:
+    commands:
+      - echo "No build steps required for static website"
+      
+  post_build:
+    commands:
+      - echo "Deploying frontend to S3..."
+      - |
+        aws s3 sync . s3://photo-album-frontend-js12685 \
+          --exclude "buildspec.yml" \
+          --exclude ".git/*" \
+          --exclude ".gitignore" \
+          --exclude ".DS_Store" \
+          --delete \
+          --region us-east-1
+      - echo "Frontend deployed successfully!"
+
+artifacts:
+  files:
+    - '**/*'

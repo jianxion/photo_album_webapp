@@ -1,0 +1,55 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.11
+    commands:
+      - echo "Installing dependencies..."
+      
+  build:
+    commands:
+      - echo "Building Lambda deployment packages..."
+      
+      # Build index-photos Lambda
+      - echo "Building index-photos Lambda..."
+      - cd lambda-functions/index-photos
+      - pip install -r requirements.txt -t package/
+      - cp index-photos.py package/
+      - cd package
+      - zip -r ../index-photos-lambda.zip .
+      - cd ../../..
+      
+      # Build search-photos Lambda
+      - echo "Building search-photos Lambda..."
+      - cd lambda-functions/search-photos
+      - pip install -r requirements.txt -t package/
+      - cp search-photos.py package/
+      - cd package
+      - zip -r ../search-photos-lambda.zip .
+      - cd ../../..
+      
+  post_build:
+    commands:
+      - echo "Deploying Lambda functions..."
+      
+      # Deploy index-photos Lambda
+      - |
+        aws lambda update-function-code \
+          --function-name index-photos \
+          --zip-file fileb://lambda-functions/index-photos/index-photos-lambda.zip \
+          --region us-east-1
+      
+      # Deploy search-photos Lambda
+      - |
+        aws lambda update-function-code \
+          --function-name search-photos \
+          --zip-file fileb://lambda-functions/search-photos/search-photos-lambda.zip \
+          --region us-east-1
+      
+      - echo "Lambda functions deployed successfully!"
+
+artifacts:
+  files:
+    - lambda-functions/index-photos/index-photos-lambda.zip
+    - lambda-functions/search-photos/search-photos-lambda.zip
